@@ -16,7 +16,7 @@ class NetworkModule {
     @Provides
     fun provideRetrofit():Retrofit{
         return Retrofit.Builder()
-            .baseUrl("http://localhost:8080/")
+            .baseUrl("https://apitfg-production.up.railway.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
