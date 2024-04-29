@@ -13,7 +13,6 @@ data class BottomNavigationItem(
     val icon: ImageVector = Icons.Filled.Home,
     val route: String = ""
 ) {
-
     fun getNavigationItems(): List<BottomNavigationItem> {
         return listOf(
             BottomNavigationItem(
