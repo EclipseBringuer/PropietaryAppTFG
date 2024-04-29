@@ -1,6 +1,7 @@
 package com.grl.clientapptfg.core.di
 
-import com.grl.clientapptfg.login.data.network.LoginClient
+
+import com.grl.clientapptfg.data.clients.LoginClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
