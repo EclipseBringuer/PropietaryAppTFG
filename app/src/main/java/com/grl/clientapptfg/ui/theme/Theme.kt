@@ -16,15 +16,15 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = durumColor,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = granate,
+    secondary = white,
+    tertiary = black
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = durumColor,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = granate,
+    secondary = white,
+    tertiary = black
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -58,7 +58,7 @@ fun ClientAppTFGTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }
 
