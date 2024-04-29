@@ -10,14 +10,26 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginRepository: LoginRepository) : ViewModel() {
+class LoginViewModel @Inject constructor(private val loginRepository: LoginRepository) :
+    ViewModel() {
 
-    private val _text = MutableLiveData<String>()
-    val text:LiveData<String> = _text
+    private val _email = MutableLiveData<String>()
+    val email: LiveData<String> = _email
+
+    private val _password = MutableLiveData<String>()
+    val password: LiveData<String> = _password
+
+    fun setEmail(newText: String) {
+        _email.value = newText
+    }
+
+    fun setPassword(newText: String) {
+        _password.value = newText
+    }
 
     fun getUser() {
         viewModelScope.launch {
-            _text.value = loginRepository.doLogin("gabrielrl2004@gmail.com", "15112004").toString()
+            _email.value = loginRepository.doLogin("gabrielrl2004@gmail.com", "15112004").toString()
         }
     }
 }
