@@ -1,6 +1,7 @@
-package com.grl.clientapptfg.login.data.network
+package com.grl.clientapptfg.data.services
 
-import com.grl.clientapptfg.login.data.network.response.LoginResponse
+import com.grl.clientapptfg.data.clients.LoginClient
+import com.grl.clientapptfg.data.models.LoginResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

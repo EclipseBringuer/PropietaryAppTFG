@@ -1,4 +1,4 @@
-package com.grl.clientapptfg.login.data.network.response
+package com.grl.clientapptfg.data.models
 
 data class LoginResponse(
     var id: Int,
