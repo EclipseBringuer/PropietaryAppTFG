@@ -15,13 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -29,16 +23,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.grl.clientapptfg.R
-import com.grl.clientapptfg.ui.theme.PurpleGrey40
-import com.grl.clientapptfg.ui.theme.PurpleGrey80
+import com.grl.clientapptfg.ui.components.PersonalizedDivider
+import com.grl.clientapptfg.ui.components.TextFieldPersonalized
 import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.mostaza
 import com.grl.clientapptfg.ui.theme.white
@@ -114,74 +108,41 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
                 color = mostaza
             )
         }
-        Row(
-            Modifier
-                .constrainAs(divider) {
-                    top.linkTo(newAcc.bottom)
-                    start.linkTo(startGuide)
-                    end.linkTo(endGuide)
-                }, verticalAlignment = Alignment.CenterVertically
-        ) {
-            HorizontalDivider(
-                Modifier
-                    .weight(1f)
-                    .padding(start = 20.dp), color = mostaza
-            )
-            Text(
-                text = "O",
-                Modifier.padding(horizontal = 15.dp),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = aladinFont,
-                textAlign = TextAlign.Center,
-                color = white
-            )
-            HorizontalDivider(
-                Modifier
-                    .weight(1f)
-                    .padding(end = 20.dp), color = mostaza
-            )
-        }
+        PersonalizedDivider(modifier = Modifier
+            .constrainAs(divider) {
+                top.linkTo(newAcc.bottom)
+                start.linkTo(startGuide)
+                end.linkTo(endGuide)
+            }, text = "O"
+        )
         Column(Modifier.constrainAs(fields) {
             top.linkTo(divider.bottom)
             start.linkTo(startGuide)
             end.linkTo(endGuide)
         }) {
-            OutlinedTextField(
+            TextFieldPersonalized(
                 value = email.value,
-                onValueChange = { loginViewModel.setEmail(it) },
-                Modifier
+                function = { loginViewModel.setEmail(it) },
+                modifier = Modifier
                     .padding(horizontal = 20.dp)
                     .padding(top = 50.dp, bottom = 40.dp)
                     .fillMaxWidth()
                     .height(70.dp),
-                shape = RoundedCornerShape(20.dp),
-                singleLine = true,
-                textStyle = TextStyle(fontSize = 20.sp, color = black),
-                placeholder = {
-                    Text(text = "Correo electrónico", fontSize = 25.sp, fontFamily = aladinFont, color = PurpleGrey80)
-                }, colors = TextFieldDefaults.colors(focusedContainerColor = white,
-                    unfocusedContainerColor = white,
-                    disabledContainerColor = white,
-                    focusedIndicatorColor = mostaza)
+                placeholder = "Correo electrónico",
+                keyboardType = KeyboardType.Email,
+                ImeAction.Next
             )
-            OutlinedTextField(
+            TextFieldPersonalized(
                 value = password.value,
-                onValueChange = { loginViewModel.setPassword(it) },
-                Modifier
+                function = { loginViewModel.setPassword(it) },
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 70.dp)
                     .height(70.dp),
-                shape = RoundedCornerShape(20.dp),
-                singleLine = true,
-                textStyle = TextStyle(fontSize = 20.sp, color = black),
-                placeholder = {
-                    Text(text = "Contraseña", fontSize = 25.sp, fontFamily = aladinFont, color = PurpleGrey80)
-                }, colors = TextFieldDefaults.colors(focusedContainerColor = white,
-                    unfocusedContainerColor = white,
-                    disabledContainerColor = white,
-                    focusedIndicatorColor = mostaza)
+                placeholder = "Contraseña",
+                keyboardType = KeyboardType.Password,
+                ImeAction.Default
             )
             Button(
                 onClick = { /*TODO*/ },
