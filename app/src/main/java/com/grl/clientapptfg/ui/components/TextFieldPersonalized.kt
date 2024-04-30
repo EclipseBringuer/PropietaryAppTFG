@@ -96,9 +96,9 @@ fun TextFieldForPasswordPersonalized(
             focusedIndicatorColor = mostaza
         ), trailingIcon = {
             val imagen = if (isVisible) {
-                Icons.Filled.Visibility
-            } else {
                 Icons.Filled.VisibilityOff
+            } else {
+                Icons.Filled.Visibility
             }
             IconButton(onClick = { changeVisibility(isVisible) }) {
                 Icon(
