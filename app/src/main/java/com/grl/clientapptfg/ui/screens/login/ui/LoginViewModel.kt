@@ -19,6 +19,13 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
     private val _password = MutableLiveData<String>()
     val password: LiveData<String> = _password
 
+    private val _isVisible = MutableLiveData<Boolean>()
+    val isVisible: LiveData<Boolean> = _isVisible
+
+    fun changeVisibility(visibility: Boolean){
+        _isVisible.value = !visibility
+    }
+
     fun setEmail(newText: String) {
         _email.value = newText
     }

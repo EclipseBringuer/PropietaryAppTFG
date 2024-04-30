@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.grl.clientapptfg.R
 import com.grl.clientapptfg.ui.components.PersonalizedDivider
+import com.grl.clientapptfg.ui.components.TextFieldForPasswordPersonalized
 import com.grl.clientapptfg.ui.components.TextFieldPersonalized
 import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.mostaza
@@ -42,6 +43,7 @@ import com.grl.clientapptfg.utils.Util
 fun LoginScreen(loginViewModel: LoginViewModel) {
     val email = loginViewModel.email.observeAsState("")
     val password = loginViewModel.password.observeAsState("")
+    val visibility = loginViewModel.isVisible.observeAsState(initial = false)
     val aladinFont = Util.loadFontFamilyFromAssets()
     ConstraintLayout(
         Modifier
@@ -132,17 +134,17 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
                 keyboardType = KeyboardType.Email,
                 ImeAction.Next
             )
-            TextFieldPersonalized(
+            TextFieldForPasswordPersonalized(
                 value = password.value,
-                function = { loginViewModel.setPassword(it) },
+                changeText = { loginViewModel.setPassword(it) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 70.dp)
                     .height(70.dp),
-                placeholder = "Contraseña",
-                keyboardType = KeyboardType.Password,
-                ImeAction.Default
+                imeAction = ImeAction.Default,
+                isVisible = visibility.value,
+                changeVisibility = {loginViewModel.changeVisibility(visibility.value)}
             )
             Button(
                 onClick = { /*TODO*/ },
