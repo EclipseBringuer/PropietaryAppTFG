@@ -22,7 +22,7 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
     private val _isVisible = MutableLiveData<Boolean>()
     val isVisible: LiveData<Boolean> = _isVisible
 
-    fun changeVisibility(visibility: Boolean){
+    fun changeVisibility(visibility: Boolean) {
         _isVisible.value = !visibility
     }
 
