@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import com.grl.clientapptfg.core.UserSession
 import com.grl.clientapptfg.ui.screens.login.ui.LoginScreen
 import com.grl.clientapptfg.ui.screens.login.ui.LoginViewModel
-import com.grl.clientapptfg.ui.screens.login.ui.Screen
+import com.grl.clientapptfg.ui.screens.menu.Screen
 
 @Composable
 fun TabsMenuContent(navController: NavHostController, modifier: Modifier, loginViewModel:LoginViewModel) {
