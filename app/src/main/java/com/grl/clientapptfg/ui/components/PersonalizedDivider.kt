@@ -12,11 +12,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grl.clientapptfg.ui.theme.mostaza
+import com.grl.clientapptfg.ui.theme.red
 import com.grl.clientapptfg.ui.theme.white
 import com.grl.clientapptfg.utils.Util
 
 @Composable
-fun PersonalizedDivider(modifier: Modifier, text: String) {
+fun PersonalizedDivider(modifier: Modifier, text: String, color: Boolean) {
     Row(
         modifier = modifier, verticalAlignment = Alignment.CenterVertically
     ) {
@@ -32,7 +33,11 @@ fun PersonalizedDivider(modifier: Modifier, text: String) {
             fontWeight = FontWeight.Bold,
             fontFamily = Util.loadFontFamilyFromAssets(),
             textAlign = TextAlign.Center,
-            color = white
+            color = if (color) {
+                red
+            } else {
+                white
+            }
         )
         HorizontalDivider(
             Modifier
