@@ -8,9 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.grl.clientapptfg.ui.screens.login.ui.LoginViewModel
-import com.grl.clientapptfg.ui.screens.principalmenu.ui.TabsMenuScreen
-import com.grl.clientapptfg.ui.screens.principalmenu.ui.TabsMenuViewModel
+import com.grl.clientapptfg.ui.screens.login.LoginViewModel
+import com.grl.clientapptfg.ui.screens.profile.ProfileViewModel
+import com.grl.clientapptfg.ui.screens.tabs_menu.TabsMenuScreen
+import com.grl.clientapptfg.ui.screens.tabs_menu.TabsMenuViewModel
 import com.grl.clientapptfg.ui.theme.ClientAppTFGTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +20,7 @@ class MainActivity : ComponentActivity() {
 
     private val tabsMenuViewModel: TabsMenuViewModel by viewModels()
     private val loginViewModel: LoginViewModel by viewModels()
+    private val profileViewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    TabsMenuScreen(tabsMenuViewModel = tabsMenuViewModel, loginViewModel)
+                    TabsMenuScreen(
+                        tabsMenuViewModel = tabsMenuViewModel,
+                        loginViewModel = loginViewModel,
+                        profileViewModel = profileViewModel
+                    )
                 }
             }
         }
