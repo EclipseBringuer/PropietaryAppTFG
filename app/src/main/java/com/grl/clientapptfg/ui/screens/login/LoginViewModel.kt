@@ -6,14 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grl.clientapptfg.core.UserSession
-import com.grl.clientapptfg.data.repositories.LoginRepository
+import com.grl.clientapptfg.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val userRepository: UserRepository
 ) :
     ViewModel() {
 
@@ -75,7 +75,7 @@ class LoginViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val user = loginRepository.doLogin(_email.value!!, _password.value!!)
+                val user = userRepository.doLogin(_email.value!!, _password.value!!)
                 if(user.id != 0){
                     UserSession.setUser(user)
                 }
