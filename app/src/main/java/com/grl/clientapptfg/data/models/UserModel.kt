@@ -1,6 +1,6 @@
 package com.grl.clientapptfg.data.models
 
-data class LoginResponse(
+data class UserModel(
     var id: Int = 0,
     var name: String,
     var gmail: String,
