@@ -19,8 +19,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.grl.clientapptfg.ui.components.TabsMenuContent
 import com.grl.clientapptfg.ui.screens.login.LoginViewModel
-import com.grl.clientapptfg.ui.components.BottomNavigationItem
+import com.grl.clientapptfg.data.models.BottomNavigationItem
+import com.grl.clientapptfg.ui.screens.create_account.CreateAccountViewModel
+import com.grl.clientapptfg.ui.screens.menu.MenuViewModel
+import com.grl.clientapptfg.ui.screens.order.OrderViewModel
 import com.grl.clientapptfg.ui.screens.profile.ProfileViewModel
+import com.grl.clientapptfg.ui.screens.start.StartViewModel
+import com.grl.clientapptfg.ui.screens.tracking.TrackingViewModel
+import com.grl.clientapptfg.ui.screens.user_details.UserDetailsViewModel
 import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.granate
 import com.grl.clientapptfg.ui.theme.mostaza
@@ -31,7 +37,13 @@ import com.grl.clientapptfg.utils.Util
 fun TabsMenuScreen(
     tabsMenuViewModel: TabsMenuViewModel,
     loginViewModel: LoginViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    menuViewModel: MenuViewModel,
+    userDetailsViewModel: UserDetailsViewModel,
+    createAccountViewModel: CreateAccountViewModel,
+    startViewModel: StartViewModel,
+    trackingViewModel: TrackingViewModel,
+    orderViewModel: OrderViewModel
 ) {
     val navigationSelectedItem: Int by tabsMenuViewModel.navigationSelectedItem.observeAsState(
         initial = 4
@@ -80,7 +92,13 @@ fun TabsMenuScreen(
             navController = navController,
             modifier = Modifier.padding(paddingValues),
             loginViewModel = loginViewModel,
-            profileViewModel = profileViewModel
+            profileViewModel = profileViewModel,
+            menuViewModel = menuViewModel,
+            userDetailsViewModel = userDetailsViewModel,
+            createAccountViewModel = createAccountViewModel,
+            startViewModel = startViewModel,
+            trackingViewModel = trackingViewModel,
+            orderViewModel = orderViewModel
         )
     }
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.grl.clientapptfg.ui.components.BottomNavigationItem
+import com.grl.clientapptfg.data.models.BottomNavigationItem
 import javax.inject.Inject
 
 class TabsMenuViewModel @Inject constructor() : ViewModel() {
