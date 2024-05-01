@@ -1,4 +1,4 @@
-package com.grl.clientapptfg.ui.screens.login.ui
+package com.grl.clientapptfg.ui.screens.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,18 +32,26 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.grl.clientapptfg.R
 import com.grl.clientapptfg.ui.components.PersonalizedDivider
+import com.grl.clientapptfg.ui.components.ProgressBarDialog
 import com.grl.clientapptfg.ui.components.TextFieldForPasswordPersonalized
 import com.grl.clientapptfg.ui.components.TextFieldPersonalized
+import com.grl.clientapptfg.ui.screens.profile.ProfileViewModel
 import com.grl.clientapptfg.ui.theme.black
+import com.grl.clientapptfg.ui.theme.blackSoft
 import com.grl.clientapptfg.ui.theme.mostaza
+import com.grl.clientapptfg.ui.theme.mostazaSoft
 import com.grl.clientapptfg.ui.theme.white
 import com.grl.clientapptfg.utils.Util
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel) {
+fun LoginScreen(loginViewModel: LoginViewModel, profileViewModel: ProfileViewModel) {
     val email = loginViewModel.email.observeAsState("")
     val password = loginViewModel.password.observeAsState("")
     val visibility = loginViewModel.isVisible.observeAsState(initial = false)
+    val isLoginEnable = loginViewModel.isLoginEnable.observeAsState(initial = false)
+    val isLoading = loginViewModel.isLoading.observeAsState(initial = false)
+    val logedIsBad = loginViewModel.logedIsBad.observeAsState(initial = false)
+    val dividerText = loginViewModel.dividerText.observeAsState(initial = "O")
     val aladinFont = Util.loadFontFamilyFromAssets()
     ConstraintLayout(
         Modifier
@@ -54,7 +62,9 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
         val topGuide = createGuidelineFromTop(0.03f)
         val startGuide = createGuidelineFromStart(0.05f)
         val endGuide = createGuidelineFromEnd(0.05f)
-
+        if (isLoading.value) {
+            ProgressBarDialog()
+        }
         Image(
             painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "Imagen de la app",
@@ -110,12 +120,14 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
                 color = mostaza
             )
         }
-        PersonalizedDivider(modifier = Modifier
-            .constrainAs(divider) {
-                top.linkTo(newAcc.bottom)
-                start.linkTo(startGuide)
-                end.linkTo(endGuide)
-            }, text = "O"
+        PersonalizedDivider(
+            modifier = Modifier
+                .constrainAs(divider) {
+                    top.linkTo(newAcc.bottom)
+                    start.linkTo(startGuide)
+                    end.linkTo(endGuide)
+                }, text = dividerText.value,
+            color = logedIsBad.value
         )
         Column(Modifier.constrainAs(fields) {
             top.linkTo(divider.bottom)
@@ -124,7 +136,10 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
         }) {
             TextFieldPersonalized(
                 value = email.value,
-                function = { loginViewModel.setEmail(it) },
+                function = {
+                    loginViewModel.setEmail(it)
+                    loginViewModel.enableLogin(email.value, password.value)
+                },
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
                     .padding(top = 50.dp, bottom = 40.dp)
@@ -136,18 +151,26 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
             )
             TextFieldForPasswordPersonalized(
                 value = password.value,
-                changeText = { loginViewModel.setPassword(it) },
+                changeText = {
+                    loginViewModel.setPassword(it)
+                    loginViewModel.enableLogin(email.value, password.value)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .padding(bottom = 70.dp)
                     .height(70.dp),
                 imeAction = ImeAction.Default,
                 isVisible = visibility.value,
-                changeVisibility = {loginViewModel.changeVisibility(visibility.value)}
+                changeVisibility = { loginViewModel.changeVisibility(visibility.value) }
+            )
+            Text(
+                text = "La contraseña tiene ${password.value.length} caracteres de los 7 mínimos",
+                Modifier
+                    .padding(horizontal = 28.dp)
+                    .padding(bottom = 60.dp), fontFamily = aladinFont, color = mostaza
             )
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { loginViewModel.getUser { succes -> profileViewModel.setUserLogged(succes) } },
                 Modifier
                     .fillMaxWidth()
                     .height(70.dp)
@@ -155,9 +178,10 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
                 colors = ButtonColors(
                     contentColor = black,
                     containerColor = mostaza,
-                    disabledContainerColor = white,
-                    disabledContentColor = black
-                )
+                    disabledContainerColor = mostazaSoft,
+                    disabledContentColor = blackSoft
+                ),
+                enabled = isLoginEnable.value
             ) {
                 Text(
                     text = "Iniciar Sesión",
