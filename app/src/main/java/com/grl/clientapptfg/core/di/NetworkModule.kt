@@ -1,5 +1,6 @@
 package com.grl.clientapptfg.core.di
 
+import com.grl.clientapptfg.data.clients.ProductClient
 import com.grl.clientapptfg.data.clients.UserClient
 import dagger.Module
 import dagger.Provides
@@ -24,7 +25,13 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideLoginClient(retrofit: Retrofit): UserClient {
+    fun provideUserClient(retrofit: Retrofit): UserClient {
         return retrofit.create(UserClient::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideProductClient(retrofit: Retrofit): ProductClient {
+        return retrofit.create(ProductClient::class.java)
     }
 }
