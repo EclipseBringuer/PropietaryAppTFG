@@ -1,4 +1,4 @@
-package com.grl.clientapptfg.ui.screens.principalmenu.ui
+package com.grl.clientapptfg.ui.screens.tabs_menu
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,8 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.grl.clientapptfg.ui.components.TabsMenuContent
-import com.grl.clientapptfg.ui.screens.login.ui.LoginViewModel
+import com.grl.clientapptfg.ui.screens.login.LoginViewModel
 import com.grl.clientapptfg.ui.components.BottomNavigationItem
+import com.grl.clientapptfg.ui.screens.profile.ProfileViewModel
 import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.granate
 import com.grl.clientapptfg.ui.theme.mostaza
@@ -27,7 +28,11 @@ import com.grl.clientapptfg.ui.theme.white
 import com.grl.clientapptfg.utils.Util
 
 @Composable
-fun TabsMenuScreen(tabsMenuViewModel: TabsMenuViewModel, loginViewModel: LoginViewModel) {
+fun TabsMenuScreen(
+    tabsMenuViewModel: TabsMenuViewModel,
+    loginViewModel: LoginViewModel,
+    profileViewModel: ProfileViewModel
+) {
     val navigationSelectedItem: Int by tabsMenuViewModel.navigationSelectedItem.observeAsState(
         initial = 4
     )
@@ -42,7 +47,12 @@ fun TabsMenuScreen(tabsMenuViewModel: TabsMenuViewModel, loginViewModel: LoginVi
                         NavigationBarItem(
                             selected = index == navigationSelectedItem,
                             label = {
-                                Text(item.label, fontFamily = aladinFont, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                                Text(
+                                    item.label,
+                                    fontFamily = aladinFont,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
                             },
                             icon = {
                                 Icon(
@@ -69,7 +79,8 @@ fun TabsMenuScreen(tabsMenuViewModel: TabsMenuViewModel, loginViewModel: LoginVi
         TabsMenuContent(
             navController = navController,
             modifier = Modifier.padding(paddingValues),
-            loginViewModel = loginViewModel
+            loginViewModel = loginViewModel,
+            profileViewModel = profileViewModel
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.grl.clientapptfg.ui.screens.principalmenu.ui
+package com.grl.clientapptfg.ui.screens.tabs_menu
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
