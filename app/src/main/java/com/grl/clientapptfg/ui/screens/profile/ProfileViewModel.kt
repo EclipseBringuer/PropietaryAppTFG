@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor() : ViewModel() {
-    private val _isUserLogged = MutableLiveData<Boolean>()
-    val isUserLogged: LiveData<Boolean> = _isUserLogged
+    private val _screenState = MutableLiveData<Int>()
+    val screenState: LiveData<Int> = _screenState
 
-    fun setUserLogged(boolean: Boolean) {
-        _isUserLogged.value = boolean
+    fun setScreenState(number: Int) {
+        _screenState.value = number
     }
 }
