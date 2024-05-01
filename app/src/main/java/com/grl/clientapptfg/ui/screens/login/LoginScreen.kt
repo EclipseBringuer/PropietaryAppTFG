@@ -112,7 +112,7 @@ fun LoginScreen(loginViewModel: LoginViewModel, profileViewModel: ProfileViewMod
                 text = "una nueva cuenta",
                 Modifier
                     .align(Alignment.CenterVertically)
-                    .clickable { },
+                    .clickable {profileViewModel.setScreenState(3) },
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = aladinFont,
@@ -170,7 +170,13 @@ fun LoginScreen(loginViewModel: LoginViewModel, profileViewModel: ProfileViewMod
                     .padding(bottom = 60.dp), fontFamily = aladinFont, color = mostaza
             )
             Button(
-                onClick = { loginViewModel.getUser { succes -> profileViewModel.setUserLogged(succes) } },
+                onClick = {
+                    loginViewModel.getUser { succes ->
+                        if (succes) {
+                            profileViewModel.setScreenState(2)
+                        }
+                    }
+                },
                 Modifier
                     .fillMaxWidth()
                     .height(70.dp)
