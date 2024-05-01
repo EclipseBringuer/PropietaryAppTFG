@@ -1,4 +1,4 @@
-package com.grl.clientapptfg.ui.components
+package com.grl.clientapptfg.core
 
 sealed class Screens(val route: String) {
     data object Login: Screens("login-route")

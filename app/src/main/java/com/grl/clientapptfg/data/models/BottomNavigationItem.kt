@@ -1,4 +1,4 @@
-package com.grl.clientapptfg.ui.components
+package com.grl.clientapptfg.data.models
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.grl.clientapptfg.core.Screens
 
 data class BottomNavigationItem(
     val label: String = "",
