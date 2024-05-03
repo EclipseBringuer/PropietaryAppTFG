@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grl.clientapptfg.core.UserSession
 import com.grl.clientapptfg.data.repositories.UserRepository
+import com.grl.clientapptfg.utils.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -75,8 +76,9 @@ class LoginViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val user = userRepository.doLogin(_email.value!!, _password.value!!)
-                if(user.id != 0){
+                val user =
+                    userRepository.doLogin(_email.value!!, Util.hashPassword(_password.value!!))
+                if (user.id != 0) {
                     UserSession.setUser(user)
                 }
                 changeDividerText(user.id != 0)
