@@ -1,6 +1,5 @@
 package com.grl.clientapptfg.ui.screens.login
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,9 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
@@ -20,9 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.grl.clientapptfg.R
+import com.grl.clientapptfg.ui.components.LogoApp
 import com.grl.clientapptfg.ui.components.PersonalizedDivider
 import com.grl.clientapptfg.ui.components.ProgressBarDialog
 import com.grl.clientapptfg.ui.components.TextFieldForPasswordPersonalized
@@ -65,17 +61,10 @@ fun LoginScreen(loginViewModel: LoginViewModel, profileViewModel: ProfileViewMod
         if (isLoading.value) {
             ProgressBarDialog()
         }
-        Image(
-            painter = painterResource(id = R.drawable.app_logo),
-            contentDescription = "Imagen de la app",
-            modifier = Modifier
-                .size(60.dp)
-                .clip(shape = RoundedCornerShape(15.dp))
-                .constrainAs(appImage) {
-                    top.linkTo(topGuide)
-                    start.linkTo(startGuide)
-                }
-        )
+        LogoApp(modifier = Modifier.constrainAs(appImage) {
+            top.linkTo(topGuide)
+            start.linkTo(startGuide)
+        })
         Text(
             text = "Bienvenido",
             Modifier
@@ -112,7 +101,7 @@ fun LoginScreen(loginViewModel: LoginViewModel, profileViewModel: ProfileViewMod
                 text = "una nueva cuenta",
                 Modifier
                     .align(Alignment.CenterVertically)
-                    .clickable {profileViewModel.setScreenState(3) },
+                    .clickable { profileViewModel.setScreenState(3) },
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = aladinFont,
