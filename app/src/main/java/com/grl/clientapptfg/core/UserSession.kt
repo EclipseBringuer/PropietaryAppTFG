@@ -5,7 +5,7 @@ import com.grl.clientapptfg.data.models.UserModel
 class UserSession {
     companion object {
         private var user: UserModel? = null
-        fun setUser(user: UserModel) {
+        fun setUser(user: UserModel?) {
             this.user = user
         }
 
