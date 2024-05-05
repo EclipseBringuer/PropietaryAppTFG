@@ -14,4 +14,11 @@ class ProductService @Inject constructor(private val productClient: ProductClien
             response.body()!!
         }
     }
+
+    suspend fun getCategories(): List<String> {
+        return withContext(Dispatchers.IO){
+            val response = productClient.getCategories(Constants.TOKEN)
+            response.body()!!
+        }
+    }
 }

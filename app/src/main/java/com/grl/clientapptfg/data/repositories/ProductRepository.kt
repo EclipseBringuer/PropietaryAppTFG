@@ -8,4 +8,8 @@ class ProductRepository @Inject constructor(private val api: ProductService) {
     suspend fun getAllProducts(): List<ProductModel> {
         return api.getAllProducts()
     }
+
+    suspend fun getCategories(): List<String> {
+        return api.getCategories()
+    }
 }
