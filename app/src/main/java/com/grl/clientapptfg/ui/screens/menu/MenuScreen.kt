@@ -29,53 +29,47 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.grl.clientapptfg.R
+import com.grl.clientapptfg.core.Constants
 import com.grl.clientapptfg.data.models.ProductModel
+import com.grl.clientapptfg.ui.components.ProgressBarDialog
+import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.granate
 import com.grl.clientapptfg.ui.theme.mostaza
-import com.grl.clientapptfg.ui.theme.white
 import com.grl.clientapptfg.utils.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun MenuScreen(menuViewModel: MenuViewModel) {
+    val isLoading = menuViewModel.isLoading.observeAsState(initial = true)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val itemWidth = screenWidth / 3
-    menuViewModel.getProducts()
     val products =
         menuViewModel.products.observeAsState(
-            listOf(
-                ProductModel(
-                    1,
-                    "nada",
-                    4.5,
-                    byteArrayOf(),
-                    "",
-                    ""
-                )
-            )
+            mutableListOf()
         )
     val categories = menuViewModel.categories.observeAsState(
-        initial = menuViewModel.getCategories()
+        initial = Constants.Companion.Category.getListOfCategories()
     )
     val selectedIndex = menuViewModel.selectedIndex.observeAsState(initial = 0)
-    menuViewModel.filterByCategory(categories.value[selectedIndex.value])
     val categoriesState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-
+    menuViewModel.getProducts()
     Column(
         Modifier
             .fillMaxSize()
             .background(granate)
     ) {
+        if (isLoading.value) {
+            ProgressBarDialog()
+        }
         Surface(
             shadowElevation = 10.dp,
             modifier = Modifier.padding(bottom = 8.dp),
@@ -98,11 +92,13 @@ fun MenuScreen(menuViewModel: MenuViewModel) {
                                 categoriesState.animateScrollAndCentralizeItem(index, this)
                             }
                         }, isSelected = index == selectedIndex.value,
-                        modifier = Modifier.width(itemWidth)
+                        modifier = Modifier.width(itemWidth),
+                        painter = menuViewModel.getPhotoByCategory(category = category)
                     )
                 }
             }
         }
+
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier
@@ -110,7 +106,7 @@ fun MenuScreen(menuViewModel: MenuViewModel) {
                 .background(granate),
         ) {
             items(products.value) { product ->
-                ProductItem(product)
+                ProductItem(product, menuViewModel)
             }
         }
     }
@@ -122,7 +118,8 @@ fun CategoryItem(
     category: String,
     onClick: () -> Unit,
     isSelected: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    painter: Painter
 ) {
     ConstraintLayout(modifier = modifier
         .fillMaxHeight()
@@ -131,10 +128,10 @@ fun CategoryItem(
         val endGuide = createGuidelineFromBottom(0.1f)
         val topGuide = createGuidelineFromTop(0.03f)
         Image(
-            painter = painterResource(id = R.drawable.tortilla),
+            painter = painter,
             contentDescription = "Imagen de prueba",
             modifier = Modifier
-                .size(95.dp)
+                .size(90.dp)
                 .constrainAs(image) {
                     bottom.linkTo(text.top)
                     start.linkTo(parent.start)
@@ -163,18 +160,59 @@ fun CategoryItem(
 }
 
 @Composable
-fun ProductItem(product: ProductModel) {
+fun ProductItem(product: ProductModel, menuViewModel: MenuViewModel) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 15.dp),
-        colors = CardDefaults.cardColors(containerColor = white),
+        colors = CardDefaults.cardColors(containerColor = black),
         shape = CardDefaults.shape,
         modifier = Modifier
             .fillMaxWidth()
             .height(250.dp)
-            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
-        ConstraintLayout {
-
+        ConstraintLayout(Modifier.fillMaxSize()) {
+            val (image, name, price) = createRefs()
+            Image(
+                painter = menuViewModel.getPhotoByCategory(category = product.category),
+                contentDescription = "Imagen del producto",
+                Modifier
+                    .size(110.dp)
+                    .constrainAs(image) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            )
+            Text(
+                text = product.name,
+                color = mostaza,
+                fontFamily = Util.loadFontFamilyFromAssets(),
+                fontSize = 35.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(top = 0.dp, start = 5.dp, end = 5.dp)
+                    .constrainAs(name) {
+                        top.linkTo(image.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            )
+            Text(
+                text = "${product.price}€",
+                color = mostaza,
+                fontFamily = Util.loadFontFamilyFromAssets(),
+                fontSize = 40.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(bottom = 5.dp)
+                    .constrainAs(price) {
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(parent.bottom)
+                    }
+            )
         }
     }
 }
