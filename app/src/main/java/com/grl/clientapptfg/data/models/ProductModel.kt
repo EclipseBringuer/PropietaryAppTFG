@@ -4,7 +4,7 @@ data class ProductModel(
     var id: Int,
     var name: String,
     var price: Double,
-    var photo: ByteArray,
+    var photo: Int = 0,
     var description: String,
     var category: String
 )
