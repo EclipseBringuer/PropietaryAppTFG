@@ -9,14 +9,14 @@ import javax.inject.Inject
 
 class ProductService @Inject constructor(private val productClient: ProductClient) {
     suspend fun getAllProducts(): List<ProductModel> {
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             val response = productClient.getAll(Constants.TOKEN)
             response.body()!!
         }
     }
 
     suspend fun getCategories(): List<String> {
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             val response = productClient.getCategories(Constants.TOKEN)
             response.body()!!
         }
