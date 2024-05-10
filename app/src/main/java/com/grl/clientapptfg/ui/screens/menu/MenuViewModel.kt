@@ -11,7 +11,6 @@ import com.grl.clientapptfg.R
 import com.grl.clientapptfg.core.Constants
 import com.grl.clientapptfg.data.models.ProductModel
 import com.grl.clientapptfg.data.repositories.ProductRepository
-import com.grl.clientapptfg.utils.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -83,8 +82,6 @@ class MenuViewModel @Inject constructor(private val productRepository: ProductRe
     fun getProducts() {
         viewModelScope.launch {
             try {
-                var list = Util.getUpdatePhotos()
-                print(list)
                 allProduts = productRepository.getAllProducts()
                 filterByCategory(Constants.Companion.Category.KEBAB)
             } catch (e: Exception) {
@@ -115,7 +112,7 @@ class MenuViewModel @Inject constructor(private val productRepository: ProductRe
             Constants.Companion.Category.MENU -> painterResource(id = R.drawable.segundo)
             Constants.Companion.Category.LAHMACUN -> painterResource(id = R.drawable.lahmacun_categoria)
             Constants.Companion.Category.HAMBURGUESA -> painterResource(id = R.drawable.hamburguesa1)
-            else -> painterResource(id = R.drawable.tortilla)
+            else -> painterResource(id = R.drawable.tercero)
         }
     }
 }

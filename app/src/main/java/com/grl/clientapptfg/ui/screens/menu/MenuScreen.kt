@@ -86,9 +86,6 @@ fun MenuScreen(menuViewModel: MenuViewModel) {
             OrderProductDialog(
                 onDismiss = { menuViewModel.setIsVisible(false) },
                 product = productSelected.value!!,
-                menuViewModel.getPhotoByCategory(
-                    category = productSelected.value!!.category
-                ),
                 context = LocalContext.current,
                 { menuViewModel.changeBadLogged(true) }
             )
