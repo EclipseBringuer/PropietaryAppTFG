@@ -53,6 +53,7 @@ fun UserDetailsScreen(
                 onPositive = {
                     userDetailsViewModel.changeCloseSession(false)
                     UserSession.setUser(null)
+                    UserSession.cleanList()
                     profileViewModel.setScreenState(1)
                 },
                 title = "¿Estas seguro de cerrar sesión?",
