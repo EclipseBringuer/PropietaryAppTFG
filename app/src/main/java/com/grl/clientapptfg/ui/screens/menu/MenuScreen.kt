@@ -31,6 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +41,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.grl.clientapptfg.core.Constants
 import com.grl.clientapptfg.data.models.ProductModel
+import com.grl.clientapptfg.ui.components.ConfirmationDialog
+import com.grl.clientapptfg.ui.components.OrderProductDialog
 import com.grl.clientapptfg.ui.components.ProgressBarDialog
 import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.granate
@@ -49,8 +54,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun MenuScreen(menuViewModel: MenuViewModel) {
     val isLoading = menuViewModel.isLoading.observeAsState(initial = true)
+    val isVisible = menuViewModel.isVisible.observeAsState(initial = false)
+    val isFirstTime = menuViewModel.isFirstTime.observeAsState(initial = true)
+    val badLogged = menuViewModel.badLogged.observeAsState(initial = false)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val itemWidth = screenWidth / 3
+    val productSelected = menuViewModel.productSelected.observeAsState()
     val products =
         menuViewModel.products.observeAsState(
             mutableListOf()
@@ -61,7 +70,10 @@ fun MenuScreen(menuViewModel: MenuViewModel) {
     val selectedIndex = menuViewModel.selectedIndex.observeAsState(initial = 0)
     val categoriesState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    menuViewModel.getProducts()
+    if (isFirstTime.value) {
+        menuViewModel.getProducts()
+        menuViewModel.changeFirstTime(false)
+    }
     Column(
         Modifier
             .fillMaxSize()
@@ -69,6 +81,24 @@ fun MenuScreen(menuViewModel: MenuViewModel) {
     ) {
         if (isLoading.value) {
             ProgressBarDialog()
+        }
+        if (isVisible.value) {
+            OrderProductDialog(
+                onDismiss = { menuViewModel.setIsVisible(false) },
+                product = productSelected.value!!,
+                menuViewModel.getPhotoByCategory(
+                    category = productSelected.value!!.category
+                ),
+                context = LocalContext.current,
+                { menuViewModel.changeBadLogged(true) }
+            )
+        }
+        if (badLogged.value) {
+            ConfirmationDialog(
+                onClick = { menuViewModel.changeBadLogged(false) },
+                title = "No has iniciado sesión!",
+                text = "Debes iniciar sesión antes de añadir productos al pedido, pulsa aceptar para volver"
+            )
         }
         Surface(
             shadowElevation = 10.dp,
@@ -166,19 +196,28 @@ fun ProductItem(product: ProductModel, menuViewModel: MenuViewModel) {
         colors = CardDefaults.cardColors(containerColor = black),
         shape = CardDefaults.shape,
         modifier = Modifier
+            .clickable {
+                menuViewModel.setActualProduct(product)
+                menuViewModel.setIsVisible(true)
+            }
             .fillMaxWidth()
-            .height(250.dp)
+            .height(270.dp)
             .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
         ConstraintLayout(Modifier.fillMaxSize()) {
             val (image, name, price) = createRefs()
+            val topGuide = createGuidelineFromTop(0.05f)
             Image(
-                painter = menuViewModel.getPhotoByCategory(category = product.category),
+                painter = if (product.photo == 0) {
+                    menuViewModel.getPhotoByCategory(category = product.category)
+                } else {
+                    painterResource(id = product.photo)
+                },
                 contentDescription = "Imagen del producto",
                 Modifier
                     .size(110.dp)
                     .constrainAs(image) {
-                        top.linkTo(parent.top)
+                        top.linkTo(topGuide)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
@@ -189,9 +228,10 @@ fun ProductItem(product: ProductModel, menuViewModel: MenuViewModel) {
                 fontFamily = Util.loadFontFamilyFromAssets(),
                 fontSize = 35.sp,
                 textAlign = TextAlign.Center,
+                style = TextStyle(lineHeight = 30.sp),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(top = 0.dp, start = 5.dp, end = 5.dp)
+                    .padding(top = 0.dp, start = 9.dp, end = 9.dp)
                     .constrainAs(name) {
                         top.linkTo(image.bottom)
                         start.linkTo(parent.start)

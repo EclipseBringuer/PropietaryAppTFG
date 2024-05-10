@@ -11,6 +11,7 @@ import com.grl.clientapptfg.R
 import com.grl.clientapptfg.core.Constants
 import com.grl.clientapptfg.data.models.ProductModel
 import com.grl.clientapptfg.data.repositories.ProductRepository
+import com.grl.clientapptfg.utils.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +24,15 @@ class MenuViewModel @Inject constructor(private val productRepository: ProductRe
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _badLogged = MutableLiveData<Boolean>()
+    val badLogged: LiveData<Boolean> = _badLogged
+
+    private val _isVisible = MutableLiveData<Boolean>()
+    val isVisible: LiveData<Boolean> = _isVisible
+
+    private val _isFirstTime = MutableLiveData<Boolean>()
+    val isFirstTime: LiveData<Boolean> = _isFirstTime
+
     private val _categories = MutableLiveData<List<String>>()
     val categories: LiveData<List<String>> = _categories
 
@@ -31,6 +41,25 @@ class MenuViewModel @Inject constructor(private val productRepository: ProductRe
 
     private val _selectedIndex = MutableLiveData<Int>()
     val selectedIndex: LiveData<Int> = _selectedIndex
+
+    private val _productSelected = MutableLiveData<ProductModel>()
+    val productSelected: LiveData<ProductModel> = _productSelected
+
+    fun changeFirstTime(boolean: Boolean) {
+        _isFirstTime.value = boolean
+    }
+
+    fun changeBadLogged(boolean: Boolean) {
+        _badLogged.value = boolean
+    }
+
+    fun setActualProduct(product: ProductModel) {
+        _productSelected.value = product
+    }
+
+    fun setIsVisible(boolean: Boolean) {
+        _isVisible.value = boolean
+    }
 
     fun changeSelectedIndex(index: Int) {
         _selectedIndex.value = index
@@ -54,12 +83,13 @@ class MenuViewModel @Inject constructor(private val productRepository: ProductRe
     fun getProducts() {
         viewModelScope.launch {
             try {
+                var list = Util.getUpdatePhotos()
+                print(list)
                 allProduts = productRepository.getAllProducts()
                 filterByCategory(Constants.Companion.Category.KEBAB)
             } catch (e: Exception) {
                 print(e.stackTrace)
-            }
-            finally {
+            } finally {
                 _isLoading.value = false
             }
         }
@@ -83,7 +113,7 @@ class MenuViewModel @Inject constructor(private val productRepository: ProductRe
             Constants.Companion.Category.BEBIDA -> painterResource(id = R.drawable.bebidas1)
             Constants.Companion.Category.RACION -> painterResource(id = R.drawable.racion1)
             Constants.Companion.Category.MENU -> painterResource(id = R.drawable.segundo)
-            Constants.Companion.Category.LAHMACUN -> painterResource(id = R.drawable.lahmacun)
+            Constants.Companion.Category.LAHMACUN -> painterResource(id = R.drawable.lahmacun_categoria)
             Constants.Companion.Category.HAMBURGUESA -> painterResource(id = R.drawable.hamburguesa1)
             else -> painterResource(id = R.drawable.tortilla)
         }
