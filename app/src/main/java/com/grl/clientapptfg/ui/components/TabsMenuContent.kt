@@ -16,6 +16,7 @@ import com.grl.clientapptfg.ui.screens.profile.ProfileScreen
 import com.grl.clientapptfg.ui.screens.profile.ProfileViewModel
 import com.grl.clientapptfg.ui.screens.start.StartScreen
 import com.grl.clientapptfg.ui.screens.start.StartViewModel
+import com.grl.clientapptfg.ui.screens.tabs_menu.TabsMenuViewModel
 import com.grl.clientapptfg.ui.screens.tracking.TrackingScreen
 import com.grl.clientapptfg.ui.screens.tracking.TrackingViewModel
 import com.grl.clientapptfg.ui.screens.user_details.UserDetailsViewModel
@@ -31,7 +32,8 @@ fun TabsMenuContent(
     createAccountViewModel: CreateAccountViewModel,
     trackingViewModel: TrackingViewModel,
     orderViewModel: OrderViewModel,
-    startViewModel: StartViewModel
+    startViewModel: StartViewModel,
+    tabsMenuViewModel: TabsMenuViewModel
 ) {
     NavHost(
         navController = navController,
@@ -45,18 +47,19 @@ fun TabsMenuContent(
             TrackingScreen(trackingViewModel = trackingViewModel)
         }
         composable(Screens.Orders.route) {
-            OrderScreen(orderViewModel = orderViewModel)
+            OrderScreen(orderViewModel = orderViewModel, tabsMenuViewModel)
         }
         composable(Screens.Login.route) {
             ProfileScreen(
                 loginViewModel = loginViewModel,
                 profileViewModel = profileViewModel,
                 userDetailsViewModel = userDetailsViewModel,
-                createAccountViewModel = createAccountViewModel
+                createAccountViewModel = createAccountViewModel,
+                tabsMenuViewModel = tabsMenuViewModel
             )
         }
         composable(Screens.Menu.route) {
-            MenuScreen(menuViewModel)
+            MenuScreen(menuViewModel, tabsMenuViewModel)
         }
     }
 }

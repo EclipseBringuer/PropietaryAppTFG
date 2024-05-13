@@ -98,7 +98,8 @@ fun TabsMenuScreen(
             createAccountViewModel = createAccountViewModel,
             startViewModel = startViewModel,
             trackingViewModel = trackingViewModel,
-            orderViewModel = orderViewModel
+            orderViewModel = orderViewModel,
+            tabsMenuViewModel = tabsMenuViewModel
         )
     }
 }
