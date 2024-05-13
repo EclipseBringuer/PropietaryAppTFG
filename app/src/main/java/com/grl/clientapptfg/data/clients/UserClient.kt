@@ -12,7 +12,8 @@ interface UserClient {
     @GET("user/{gmail}/{password}")
     suspend fun doLogin(
         @Path("gmail") gmail: String,
-        @Path("password") password: String
+        @Path("password") password: String,
+        @Query("token") token: String
     ): Response<UserModel>
 
     @POST("user/new")
