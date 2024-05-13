@@ -44,6 +44,7 @@ import com.grl.clientapptfg.data.models.ProductModel
 import com.grl.clientapptfg.ui.components.ConfirmationDialog
 import com.grl.clientapptfg.ui.components.OrderProductDialog
 import com.grl.clientapptfg.ui.components.ProgressBarDialog
+import com.grl.clientapptfg.ui.screens.tabs_menu.TabsMenuViewModel
 import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.granate
 import com.grl.clientapptfg.ui.theme.mostaza
@@ -52,7 +53,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun MenuScreen(menuViewModel: MenuViewModel) {
+fun MenuScreen(menuViewModel: MenuViewModel, tabsMenuViewModel: TabsMenuViewModel) {
     val isLoading = menuViewModel.isLoading.observeAsState(initial = true)
     val isVisible = menuViewModel.isVisible.observeAsState(initial = false)
     val isFirstTime = menuViewModel.isFirstTime.observeAsState(initial = true)
@@ -87,7 +88,8 @@ fun MenuScreen(menuViewModel: MenuViewModel) {
                 onDismiss = { menuViewModel.setIsVisible(false) },
                 product = productSelected.value!!,
                 context = LocalContext.current,
-                { menuViewModel.changeBadLogged(true) }
+                { menuViewModel.changeBadLogged(true) },
+                tabsMenuViewModel
             )
         }
         if (badLogged.value) {
@@ -125,7 +127,6 @@ fun MenuScreen(menuViewModel: MenuViewModel) {
                 }
             }
         }
-
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier
@@ -236,7 +237,7 @@ fun ProductItem(product: ProductModel, menuViewModel: MenuViewModel) {
                     }
             )
             Text(
-                text = "${product.price}€",
+                text = "${Util.formatDouble(product.price)}€",
                 color = mostaza,
                 fontFamily = Util.loadFontFamilyFromAssets(),
                 fontSize = 40.sp,
