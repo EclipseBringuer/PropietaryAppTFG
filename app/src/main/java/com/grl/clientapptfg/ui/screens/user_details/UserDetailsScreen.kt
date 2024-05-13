@@ -22,6 +22,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.grl.clientapptfg.core.UserSession
 import com.grl.clientapptfg.ui.components.ConfirmationDialogWithNegative
 import com.grl.clientapptfg.ui.screens.profile.ProfileViewModel
+import com.grl.clientapptfg.ui.screens.tabs_menu.TabsMenuViewModel
 import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.blackSoft
 import com.grl.clientapptfg.ui.theme.darkRed
@@ -34,7 +35,8 @@ import com.grl.clientapptfg.utils.Util
 @Composable
 fun UserDetailsScreen(
     userDetailsViewModel: UserDetailsViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    tabsMenuViewModel: TabsMenuViewModel
 ) {
     val aladinFont = Util.loadFontFamilyFromAssets()
     val closeSession = userDetailsViewModel.closeSession.observeAsState(initial = false)
@@ -53,7 +55,8 @@ fun UserDetailsScreen(
                 onPositive = {
                     userDetailsViewModel.changeCloseSession(false)
                     UserSession.setUser(null)
-                    UserSession.cleanList()
+                    tabsMenuViewModel.cleanList()
+                    tabsMenuViewModel.updateTotalPrice()
                     profileViewModel.setScreenState(1)
                 },
                 title = "¿Estas seguro de cerrar sesión?",
