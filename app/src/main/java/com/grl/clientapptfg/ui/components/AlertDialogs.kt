@@ -15,7 +15,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +27,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.grl.clientapptfg.core.UserSession
 import com.grl.clientapptfg.data.models.ProductModel
+import com.grl.clientapptfg.ui.screens.tabs_menu.TabsMenuViewModel
 import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.blackSoft
 import com.grl.clientapptfg.ui.theme.darkRed
@@ -255,7 +255,8 @@ fun OrderProductDialog(
     onDismiss: () -> Unit,
     product: ProductModel,
     context: Context,
-    notLogged: () -> Unit
+    notLogged: () -> Unit,
+    tabsMenuViewModel: TabsMenuViewModel
 ) {
     Dialog(
         onDismissRequest = { onDismiss() },
@@ -316,7 +317,8 @@ fun OrderProductDialog(
             Button(
                 onClick = {
                     if (UserSession.getUser() != null) {
-                        UserSession.addProduct(product)
+                        tabsMenuViewModel.addProduct(product)
+                        tabsMenuViewModel.updateTotalPrice()
                         Toast.makeText(
                             context,
                             "Producto ${product.name} añadido",
