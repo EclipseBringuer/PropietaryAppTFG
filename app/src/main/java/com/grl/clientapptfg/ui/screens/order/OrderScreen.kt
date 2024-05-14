@@ -29,11 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.grl.clientapptfg.core.Constants
 import com.grl.clientapptfg.core.UserSession
 import com.grl.clientapptfg.data.models.OrderModel
 import com.grl.clientapptfg.ui.components.ConfirmationDialog
 import com.grl.clientapptfg.ui.components.ConfirmationDialogWithNegative
 import com.grl.clientapptfg.ui.components.LogoApp
+import com.grl.clientapptfg.ui.components.OrderOptionsDialog
 import com.grl.clientapptfg.ui.components.ProgressBarDialog
 import com.grl.clientapptfg.ui.screens.tabs_menu.TabsMenuViewModel
 import com.grl.clientapptfg.ui.theme.black
@@ -55,6 +57,9 @@ fun OrderScreen(orderViewModel: OrderViewModel, tabsMenuViewModel: TabsMenuViewM
     val isOrderEmpty = orderViewModel.isOrderEmpty.observeAsState(initial = false)
     val isLoading = orderViewModel.isLoading.observeAsState(false)
     val isGoodRequest = orderViewModel.isGoodRequest.observeAsState(false)
+    val paymentValue = orderViewModel.paymentValue.observeAsState(initial = Constants.CARD)
+    val deliveryValue = orderViewModel.deliveryValue.observeAsState(initial = Constants.DELIVERY)
+    val isOrderOptions = orderViewModel.isOrderOptions.observeAsState(initial = false)
 
     if (isDeleteVisible.value) {
         ConfirmationDialogWithNegative(
@@ -68,17 +73,36 @@ fun OrderScreen(orderViewModel: OrderViewModel, tabsMenuViewModel: TabsMenuViewM
             onNegative = { orderViewModel.changeDeleteVisible(false) })
     }
 
+    if (isOrderOptions.value) {
+        OrderOptionsDialog(
+            orderViewModel = orderViewModel,
+            deliveryValue = deliveryValue.value,
+            total = total.value,
+            paymentValue = paymentValue.value
+        ) {
+            orderViewModel.changeIsOrderOptions(false)
+            orderViewModel.createNewOrder(
+                OrderModel(
+                    price = if (deliveryValue.value == Constants.PICK) {
+                        total.value
+                    } else {
+                        total.value + 1.5
+                    },
+                    items = itemList.value,
+                    paymentMethod = paymentValue.value,
+                    user = UserSession.getUser()!!,
+                    state = Constants.BASIC_STATE,
+                    delivery = deliveryValue.value
+                )
+            )
+        }
+    }
+
     if (isOrderPrepared.value) {
         ConfirmationDialogWithNegative(
             onPositive = {
-                orderViewModel.createNewOrder(
-                    OrderModel(
-                        price = total.value,
-                        items = itemList.value,
-                        paymentMethod = "CARD",
-                        user = UserSession.getUser()!!
-                    )
-                )
+                orderViewModel.changeOrderPrepared(false)
+                orderViewModel.changeIsOrderOptions(true)
             },
             title = "Finalizar Pedido",
             text = "¿Quieres finalizar ya tu pedido?",
@@ -88,7 +112,7 @@ fun OrderScreen(orderViewModel: OrderViewModel, tabsMenuViewModel: TabsMenuViewM
     if (isOrderEmpty.value) {
         ConfirmationDialog(
             onClick = { orderViewModel.changeOrderEmpty(false) },
-            title = "El pedido esta vacio!",
+            title = "¡El pedido esta vacio!",
             text = "Añade al menos un producto al pedido"
         )
     }
@@ -98,12 +122,10 @@ fun OrderScreen(orderViewModel: OrderViewModel, tabsMenuViewModel: TabsMenuViewM
             onClick = {
                 tabsMenuViewModel.cleanList()
                 tabsMenuViewModel.updateTotalPrice()
-                orderViewModel.changeOrderPrepared(false
-                )
                 orderViewModel.changeGoodRequest(false)
             },
             title = "Pedido Realizado",
-            text = "El pedido ha sido realizado con éxito!"
+            text = "¡El pedido ha sido realizado con éxito!"
         )
     }
 
@@ -160,7 +182,7 @@ fun OrderScreen(orderViewModel: OrderViewModel, tabsMenuViewModel: TabsMenuViewM
                     width = Dimension.fillToConstraints
                 }) {
                 Text(
-                    text = "No has añadido nada todavía!",
+                    text = "¡No has añadido nada todavía!",
                     modifier = Modifier.align(Alignment.Center),
                     fontFamily = aladinFont,
                     fontSize = 35.sp,
@@ -328,7 +350,7 @@ fun OrderScreen(orderViewModel: OrderViewModel, tabsMenuViewModel: TabsMenuViewM
             ), modifier = Modifier
                 .fillMaxWidth()
                 .height(90.dp)
-                .padding(/*horizontal = 20.dp,*/ vertical = 10.dp)
+                .padding(vertical = 10.dp)
                 .constrainAs(button) {
                     bottom.linkTo(parent.bottom)
                     start.linkTo(startGuide)

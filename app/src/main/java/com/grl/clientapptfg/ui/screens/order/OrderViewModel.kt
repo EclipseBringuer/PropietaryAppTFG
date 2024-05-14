@@ -26,11 +26,32 @@ class OrderViewModel @Inject constructor(private val orderRepository: OrderRepos
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _paymentValue = MutableLiveData<String>()
+    val paymentValue: LiveData<String> = _paymentValue
+
+    private val _deliveryValue = MutableLiveData<String>()
+    val deliveryValue: LiveData<String> = _deliveryValue
+
+    private val _isOrderOptions = MutableLiveData<Boolean>()
+    val isOrderOptions: LiveData<Boolean> = _isOrderOptions
+
     private val _isGoodRequest = MutableLiveData<Boolean>()
     val isGoodRequest: LiveData<Boolean> = _isGoodRequest
 
     private val _selectedItem = MutableLiveData<ItemModel>()
     val selectedItem: LiveData<ItemModel> = _selectedItem
+
+    fun changePaymentValue(value: String) {
+        _paymentValue.value = value
+    }
+
+    fun changeDeliveryValue(value: String) {
+        _deliveryValue.value = value
+    }
+
+    fun changeIsOrderOptions(boolean: Boolean) {
+        _isOrderOptions.value = boolean
+    }
 
     fun setItemSelected(item: ItemModel) {
         _selectedItem.value = item
@@ -48,7 +69,7 @@ class OrderViewModel @Inject constructor(private val orderRepository: OrderRepos
         _isOrderPrepared.value = boolean
     }
 
-    fun changeGoodRequest(boolean: Boolean){
+    fun changeGoodRequest(boolean: Boolean) {
         _isGoodRequest.value = boolean
     }
 
