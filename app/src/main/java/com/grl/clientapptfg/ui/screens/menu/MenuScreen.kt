@@ -95,7 +95,7 @@ fun MenuScreen(menuViewModel: MenuViewModel, tabsMenuViewModel: TabsMenuViewMode
         if (badLogged.value) {
             ConfirmationDialog(
                 onClick = { menuViewModel.changeBadLogged(false) },
-                title = "No has iniciado sesión!",
+                title = "¡No has iniciado sesión!",
                 text = "Debes iniciar sesión antes de añadir productos al pedido, pulsa aceptar para volver"
             )
         }
