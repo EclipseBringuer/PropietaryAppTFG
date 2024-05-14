@@ -3,6 +3,11 @@ package com.grl.clientapptfg.core
 class Constants {
     companion object {
         const val TOKEN = "15112004"
+        const val CARD = "CARD"
+        const val CASH = "CASH"
+        const val PICK = "PICK"
+        const val DELIVERY = "DELIVERY"
+        const val BASIC_STATE = "PENDING"
 
         class Category {
             companion object {
