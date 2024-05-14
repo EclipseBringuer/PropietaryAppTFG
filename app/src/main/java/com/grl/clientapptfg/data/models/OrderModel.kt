@@ -5,5 +5,7 @@ data class OrderModel(
     var price: Double,
     var paymentMethod: String,
     var items: List<ItemModel>,
-    var user: UserModel
+    var user: UserModel,
+    var state: String,
+    var delivery: String
 )
