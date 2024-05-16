@@ -24,7 +24,6 @@ import com.grl.clientapptfg.ui.screens.create_account.CreateAccountViewModel
 import com.grl.clientapptfg.ui.screens.menu.MenuViewModel
 import com.grl.clientapptfg.ui.screens.order.OrderViewModel
 import com.grl.clientapptfg.ui.screens.profile.ProfileViewModel
-import com.grl.clientapptfg.ui.screens.start.StartViewModel
 import com.grl.clientapptfg.ui.screens.tracking.TrackingViewModel
 import com.grl.clientapptfg.ui.screens.user_details.UserDetailsViewModel
 import com.grl.clientapptfg.ui.theme.black
@@ -41,7 +40,6 @@ fun TabsMenuScreen(
     menuViewModel: MenuViewModel,
     userDetailsViewModel: UserDetailsViewModel,
     createAccountViewModel: CreateAccountViewModel,
-    startViewModel: StartViewModel,
     trackingViewModel: TrackingViewModel,
     orderViewModel: OrderViewModel
 ) {
@@ -96,7 +94,6 @@ fun TabsMenuScreen(
             menuViewModel = menuViewModel,
             userDetailsViewModel = userDetailsViewModel,
             createAccountViewModel = createAccountViewModel,
-            startViewModel = startViewModel,
             trackingViewModel = trackingViewModel,
             orderViewModel = orderViewModel,
             tabsMenuViewModel = tabsMenuViewModel

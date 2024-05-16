@@ -15,7 +15,6 @@ import com.grl.clientapptfg.ui.screens.order.OrderViewModel
 import com.grl.clientapptfg.ui.screens.profile.ProfileScreen
 import com.grl.clientapptfg.ui.screens.profile.ProfileViewModel
 import com.grl.clientapptfg.ui.screens.start.StartScreen
-import com.grl.clientapptfg.ui.screens.start.StartViewModel
 import com.grl.clientapptfg.ui.screens.tabs_menu.TabsMenuViewModel
 import com.grl.clientapptfg.ui.screens.tracking.TrackingScreen
 import com.grl.clientapptfg.ui.screens.tracking.TrackingViewModel
@@ -32,7 +31,6 @@ fun TabsMenuContent(
     createAccountViewModel: CreateAccountViewModel,
     trackingViewModel: TrackingViewModel,
     orderViewModel: OrderViewModel,
-    startViewModel: StartViewModel,
     tabsMenuViewModel: TabsMenuViewModel
 ) {
     NavHost(
@@ -41,7 +39,7 @@ fun TabsMenuContent(
         modifier = modifier,
     ) {
         composable(Screens.Home.route) {
-            StartScreen(startViewModel = startViewModel)
+            StartScreen()
         }
         composable(Screens.Tracking.route) {
             TrackingScreen(trackingViewModel = trackingViewModel)
