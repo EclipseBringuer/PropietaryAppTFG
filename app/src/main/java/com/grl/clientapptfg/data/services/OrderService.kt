@@ -14,4 +14,11 @@ class OrderService @Inject constructor(private val orderClient: OrderClient) {
             response.body()!!
         }
     }
+
+    suspend fun getOrdersByUser(userId:Int):List<OrderModel>{
+        return withContext(Dispatchers.IO){
+            val response = orderClient.getOrdersByUser(Constants.TOKEN, userId)
+            response.body()!!
+        }
+    }
 }
