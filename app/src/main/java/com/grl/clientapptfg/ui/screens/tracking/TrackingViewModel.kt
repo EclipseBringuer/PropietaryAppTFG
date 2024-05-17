@@ -46,15 +46,22 @@ class TrackingViewModel @Inject constructor(private val orderRepository: OrderRe
     }
 
     fun getOrdersByUser(id: Int) {
-        _isLoading.value = true
+        if (_isFirst.value!!) {
+            _isLoading.value = true
+        }
         viewModelScope.launch {
             try {
                 _orders.value = orderRepository.getOrdersByUser(id)
-                _orderSelected.value = _orders.value!![0]
+                if (_isFirst.value!!) {
+                    _orderSelected.value = _orders.value!![0]
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                _isLoading.value = false
+                if (_isFirst.value!!) {
+                    _isLoading.value = false
+                    _isFirst.value = false
+                }
             }
         }
     }
