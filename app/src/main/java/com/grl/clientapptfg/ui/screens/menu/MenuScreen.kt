@@ -1,5 +1,6 @@
 package com.grl.clientapptfg.ui.screens.menu
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,8 +20,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -189,7 +190,8 @@ fun CategoryItem(
 
 @Composable
 fun ProductItem(product: ProductModel, menuViewModel: MenuViewModel) {
-    ElevatedCard(
+    Card(
+        border = BorderStroke(3.dp, mostaza),
         elevation = CardDefaults.cardElevation(defaultElevation = 15.dp),
         colors = CardDefaults.cardColors(containerColor = black),
         shape = CardDefaults.shape,
