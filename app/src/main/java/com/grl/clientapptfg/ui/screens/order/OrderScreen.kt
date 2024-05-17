@@ -1,5 +1,6 @@
 package com.grl.clientapptfg.ui.screens.order
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,8 +15,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -91,7 +92,7 @@ fun OrderScreen(orderViewModel: OrderViewModel, tabsMenuViewModel: TabsMenuViewM
                     items = itemList.value,
                     paymentMethod = paymentValue.value,
                     user = UserSession.getUser()!!,
-                    state = Constants.BASIC_STATE,
+                    state = Constants.PENDING,
                     delivery = deliveryValue.value
                 )
             )
@@ -202,7 +203,8 @@ fun OrderScreen(orderViewModel: OrderViewModel, tabsMenuViewModel: TabsMenuViewM
                         width = Dimension.fillToConstraints
                     }) {
                 items(itemList.value) { item ->
-                    ElevatedCard(
+                    Card(
+                        border = BorderStroke(3.dp, mostaza),
                         elevation = CardDefaults.cardElevation(defaultElevation = 15.dp),
                         colors = CardDefaults.cardColors(containerColor = black),
                         shape = RoundedCornerShape(
