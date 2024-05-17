@@ -23,6 +23,7 @@ import com.grl.clientapptfg.core.UserSession
 import com.grl.clientapptfg.ui.components.ConfirmationDialogWithNegative
 import com.grl.clientapptfg.ui.screens.profile.ProfileViewModel
 import com.grl.clientapptfg.ui.screens.tabs_menu.TabsMenuViewModel
+import com.grl.clientapptfg.ui.screens.tracking.TrackingViewModel
 import com.grl.clientapptfg.ui.theme.black
 import com.grl.clientapptfg.ui.theme.blackSoft
 import com.grl.clientapptfg.ui.theme.darkRed
@@ -36,7 +37,8 @@ import com.grl.clientapptfg.utils.Util
 fun UserDetailsScreen(
     userDetailsViewModel: UserDetailsViewModel,
     profileViewModel: ProfileViewModel,
-    tabsMenuViewModel: TabsMenuViewModel
+    tabsMenuViewModel: TabsMenuViewModel,
+    trackingViewModel: TrackingViewModel
 ) {
     val aladinFont = Util.loadFontFamilyFromAssets()
     val closeSession = userDetailsViewModel.closeSession.observeAsState(initial = false)
@@ -56,6 +58,7 @@ fun UserDetailsScreen(
                     userDetailsViewModel.changeCloseSession(false)
                     UserSession.setUser(null)
                     tabsMenuViewModel.cleanList()
+                    trackingViewModel.cleanOrderList()
                     tabsMenuViewModel.updateTotalPrice()
                     profileViewModel.setScreenState(1)
                 },

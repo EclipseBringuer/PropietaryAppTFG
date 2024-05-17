@@ -53,7 +53,8 @@ fun TabsMenuContent(
                 profileViewModel = profileViewModel,
                 userDetailsViewModel = userDetailsViewModel,
                 createAccountViewModel = createAccountViewModel,
-                tabsMenuViewModel = tabsMenuViewModel
+                tabsMenuViewModel = tabsMenuViewModel,
+                trackingViewModel = trackingViewModel
             )
         }
         composable(Screens.Menu.route) {
