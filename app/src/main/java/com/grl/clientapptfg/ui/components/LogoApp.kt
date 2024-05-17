@@ -13,7 +13,7 @@ import com.grl.clientapptfg.R
 @Composable
 fun LogoApp(modifier: Modifier) {
     Image(
-        painter = painterResource(id = R.drawable.app_logo),
+        painter = painterResource(id = R.drawable.logo_bueno),
         contentDescription = "Imagen de la app",
         modifier = modifier
             .size(60.dp)
