@@ -18,6 +18,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +41,7 @@ import com.grl.clientapptfg.ui.theme.granate
 import com.grl.clientapptfg.ui.theme.mostaza
 import com.grl.clientapptfg.ui.theme.white
 import com.grl.clientapptfg.utils.Util
+import kotlinx.coroutines.delay
 
 @Composable
 fun TrackingScreen(trackingViewModel: TrackingViewModel) {
@@ -56,15 +58,18 @@ fun TrackingScreen(trackingViewModel: TrackingViewModel) {
             user = null
         )
     )
-    val isFirst = trackingViewModel.isFirst.observeAsState(initial = true)
 
     if (isLoading.value) {
         ProgressBarDialog()
     }
 
-    if (UserSession.getUser() != null && isFirst.value) {
-        trackingViewModel.getOrdersByUser(UserSession.getUser()!!.id)
-        trackingViewModel.changeIsFirst(false)
+    if (UserSession.getUser() != null) {
+        LaunchedEffect(Unit) {
+            while(true){
+                trackingViewModel.getOrdersByUser(UserSession.getUser()!!.id)
+                delay(8000L)
+            }
+        }
     }
 
     ConstraintLayout(
