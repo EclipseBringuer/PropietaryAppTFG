@@ -7,7 +7,10 @@ class Constants {
         const val CASH = "CASH"
         const val PICK = "PICK"
         const val DELIVERY = "DELIVERY"
-        const val BASIC_STATE = "PENDING"
+        const val PENDING = "PENDING"
+        const val PREPARATION = "PREPARATION"
+        const val COMPLETED = "COMPLETED"
+        const val CANCELED = "CANCELED"
 
         class Category {
             companion object {
