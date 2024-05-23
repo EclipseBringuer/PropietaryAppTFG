@@ -32,7 +32,7 @@ fun CategoryItem(name: String, onClick: () -> Unit, isSelected: Boolean, modifie
             textAlign = TextAlign.Center,
             color = mostaza,
             fontFamily = Util.loadFontFamilyFromAssets(),
-            fontSize = 30.sp,
+            fontSize = 35.sp,
             fontWeight = FontWeight.Bold
         )
         if (isSelected) {
