@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.grl.clientapptfg"
+    namespace = "com.grl.propietaryapptfg"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.grl.clientapptfg"
+        applicationId = "com.grl.propietaryapptfg"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
