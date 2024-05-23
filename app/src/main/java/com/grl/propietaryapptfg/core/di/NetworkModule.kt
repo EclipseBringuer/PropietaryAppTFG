@@ -2,7 +2,6 @@ package com.grl.propietaryapptfg.core.di
 
 import com.grl.propietaryapptfg.data.clients.OrderClient
 import com.grl.propietaryapptfg.data.clients.ProductClient
-import com.grl.propietaryapptfg.data.clients.UserClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,12 +21,6 @@ class NetworkModule {
             .baseUrl("https://apitfg-production.up.railway.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideUserClient(retrofit: Retrofit): UserClient {
-        return retrofit.create(UserClient::class.java)
     }
 
     @Singleton
