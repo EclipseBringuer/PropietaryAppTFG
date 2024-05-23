@@ -1,6 +1,7 @@
 package com.grl.propietaryapptfg.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -40,7 +41,8 @@ fun OrderCard(
     order: OrderModel,
     aladinFont: FontFamily,
     onCancel: () -> Unit,
-    onAccept: () -> Unit
+    onAccept: () -> Unit,
+    onIcon: () -> Unit
 ) {
     Card(
         border = BorderStroke(3.dp, mostaza),
@@ -78,6 +80,7 @@ fun OrderCard(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
+                    .clickable { onIcon() }
                     .constrainAs(ico) {
                         top.linkTo(parent.top)
                         start.linkTo(acceptBtn.start)
