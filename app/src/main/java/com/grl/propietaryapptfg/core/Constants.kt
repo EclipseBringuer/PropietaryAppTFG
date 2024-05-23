@@ -12,6 +12,17 @@ class Constants {
         const val COMPLETED = "COMPLETED"
         const val CANCELED = "CANCELED"
 
+        class Tabs{
+            companion object{
+                const val PENDINGS = "Pendientes"
+                const val ACCEPTEDS = "Aceptados"
+
+                fun getListOfTabs():List<String>{
+                    return listOf(PENDINGS, ACCEPTEDS)
+                }
+            }
+        }
+
         class Category {
             companion object {
                 const val KEBAB = "Kebab"
