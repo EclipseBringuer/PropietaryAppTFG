@@ -50,7 +50,7 @@ fun OrderListScreen(
     val tabs by orderListViewModel.tabs.observeAsState(initial = Constants.Companion.Tabs.getListOfTabs())
     val isAccepting by orderListViewModel.isAccepting.observeAsState(initial = false)
     val isCanceling by orderListViewModel.isCanceling.observeAsState(initial = false)
-    val orderSelected by orderListViewModel.orderSelected.observeAsState()
+    val orderSelected by principalViewModel.orderSelected.observeAsState()
     val stateOrders = rememberLazyListState()
 
     if (isLoading) {
@@ -64,7 +64,7 @@ fun OrderListScreen(
                 orderListViewModel.setIsAccepting(false)
             },
             title = "¿Quieres aceptar el pedido?",
-            text = "Pulsa aceptar para confirmar"
+            text = "Pulsa aceptar para confirmar el pedido ${orderSelected!!.id} Nº"
         ) {
             orderListViewModel.setIsAccepting(false)
         }
@@ -77,7 +77,7 @@ fun OrderListScreen(
                 orderListViewModel.setIsCanceling(false)
             },
             title = "¿Quieres cancelar el pedido?",
-            text = "Pulsa aceptar para confirmar"
+            text = "Pulsa aceptar para cancelar el pedido ${orderSelected!!.id} Nº"
         ) {
             orderListViewModel.setIsCanceling(false)
         }
@@ -172,19 +172,24 @@ fun OrderListScreen(
                             order,
                             aladinFont,
                             onAccept = {
-                                orderListViewModel.setOrderSelected(order)
+                                principalViewModel.setOrderSelected(order)
                                 orderListViewModel.setIsAccepting(true)
                             },
                             onCancel = {
-                                orderListViewModel.setOrderSelected(order)
+                                principalViewModel.setOrderSelected(order)
                                 orderListViewModel.setIsCanceling(true)
+                            },
+                            onIcon = {
+                                principalViewModel.setOrderSelected(order)
+                                principalViewModel.setScreenState(2)
                             })
                     } else {
                         OrderCard(
                             order,
                             aladinFont,
-                            onAccept = { orderListViewModel.acceptOrder(order) },
-                            onCancel = {})
+                            onAccept = {},
+                            onCancel = {},
+                            onIcon = {})
                     }
                 }
             }
