@@ -30,9 +30,6 @@ class OrderListViewModel @Inject constructor(private val orderRepository: OrderR
     private val _orders = MutableLiveData<List<OrderModel>>()
     val orders: LiveData<List<OrderModel>> = _orders
 
-    private val _orderSelected = MutableLiveData<OrderModel>()
-    val orderSelected: LiveData<OrderModel> = _orderSelected
-
     private val _tabs =
         MutableLiveData<List<String>>().apply { value = Constants.Companion.Tabs.getListOfTabs() }
     val tabs: LiveData<List<String>> = _tabs
@@ -47,10 +44,6 @@ class OrderListViewModel @Inject constructor(private val orderRepository: OrderR
             getOrdersNotCompleted()
             startPollingForOrders()
         }
-    }
-
-    fun setOrderSelected(order: OrderModel) {
-        _orderSelected.value = order
     }
 
     fun setIsAccepting(boolean: Boolean) {
