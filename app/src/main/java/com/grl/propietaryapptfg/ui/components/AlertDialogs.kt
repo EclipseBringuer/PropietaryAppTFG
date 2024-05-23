@@ -152,7 +152,7 @@ fun ConfirmationDialogWithNegative(
                 style = TextStyle(lineHeight = 45.sp),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 8.dp)
                     .padding(top = 10.dp)
                     .constrainAs(titleText) {
                         top.linkTo(parent.top)
