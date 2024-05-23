@@ -29,10 +29,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.grl.propietaryapptfg.core.Constants
-import com.grl.propietaryapptfg.core.UserSession
 import com.grl.propietaryapptfg.data.models.ProductModel
-import com.grl.propietaryapptfg.ui.screens.order.OrderViewModel
-import com.grl.propietaryapptfg.ui.screens.tabs_menu.TabsMenuViewModel
 import com.grl.propietaryapptfg.ui.theme.black
 import com.grl.propietaryapptfg.ui.theme.blackSoft
 import com.grl.propietaryapptfg.ui.theme.darkRed
@@ -142,7 +139,7 @@ fun ConfirmationDialogWithNegative(
         ConstraintLayout(
             Modifier
                 .fillMaxWidth()
-                .height(320.dp)
+                .height(350.dp)
                 .background(granate, RoundedCornerShape(20.dp))
         ) {
             val (titleText, description, bConfirm, bDenegate, divider) = createRefs()
@@ -264,7 +261,6 @@ fun OrderProductDialog(
     product: ProductModel,
     context: Context,
     notLogged: () -> Unit,
-    tabsMenuViewModel: TabsMenuViewModel
 ) {
     Dialog(
         onDismissRequest = { onDismiss() },
@@ -324,9 +320,7 @@ fun OrderProductDialog(
 
             Button(
                 onClick = {
-                    if (UserSession.getUser() != null) {
-                        tabsMenuViewModel.addProduct(product)
-                        tabsMenuViewModel.updateTotalPrice()
+                    if (true) {
                         Toast.makeText(
                             context,
                             "Producto ${product.name} añadido",
@@ -372,7 +366,6 @@ fun OrderProductDialog(
 fun OrderOptionsDialog(
     paymentValue: String = "",
     deliveryValue: String = "",
-    orderViewModel: OrderViewModel,
     total: Double,
     onConfirm: () -> Unit,
 ) {
@@ -425,7 +418,7 @@ fun OrderOptionsDialog(
             )
             RadioButton(
                 selected = deliveryValue == Constants.DELIVERY,
-                onClick = { orderViewModel.changeDeliveryValue(Constants.DELIVERY) },
+                onClick = { },
                 colors = RadioButtonColors(
                     selectedColor = mostaza,
                     unselectedColor = white,
@@ -457,7 +450,7 @@ fun OrderOptionsDialog(
                 })
             RadioButton(
                 selected = deliveryValue == Constants.PICK,
-                onClick = { orderViewModel.changeDeliveryValue(Constants.PICK) },
+                onClick = {  },
                 colors = RadioButtonColors(
                     selectedColor = mostaza,
                     unselectedColor = white,
@@ -502,7 +495,7 @@ fun OrderOptionsDialog(
                 })
             RadioButton(
                 selected = paymentValue == Constants.CARD,
-                onClick = { orderViewModel.changePaymentValue(Constants.CARD) },
+                onClick = {  },
                 colors = RadioButtonColors(
                     selectedColor = mostaza,
                     unselectedColor = white,
@@ -533,7 +526,7 @@ fun OrderOptionsDialog(
                 })
             RadioButton(
                 selected = paymentValue == Constants.CASH,
-                onClick = { orderViewModel.changePaymentValue(Constants.CASH) },
+                onClick = {  },
                 colors = RadioButtonColors(
                     selectedColor = mostaza,
                     unselectedColor = white,
