@@ -5,6 +5,8 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface OrderClient {
@@ -19,4 +21,14 @@ interface OrderClient {
         @Query("token") token: String,
         @Query("id") id: Int
     ): Response<List<OrderModel>>
+
+    @GET("order/getAllNotCompleted")
+    suspend fun getAllNotCompleted(@Query("token") token: String): Response<List<OrderModel>>
+
+    @PUT("order/updateState/{id}")
+    suspend fun updateState(
+        @Path("id") id: Int,
+        @Query("state") state: String,
+        @Query("token") token: String
+    ): Response<OrderModel>
 }

@@ -15,9 +15,23 @@ class OrderService @Inject constructor(private val orderClient: OrderClient) {
         }
     }
 
-    suspend fun getOrdersByUser(userId:Int):List<OrderModel>{
-        return withContext(Dispatchers.IO){
+    suspend fun getOrdersByUser(userId: Int): List<OrderModel> {
+        return withContext(Dispatchers.IO) {
             val response = orderClient.getOrdersByUser(Constants.TOKEN, userId)
+            response.body()!!
+        }
+    }
+
+    suspend fun getAllNotCompleted(): List<OrderModel> {
+        return withContext(Dispatchers.IO) {
+            val response = orderClient.getAllNotCompleted(Constants.TOKEN)
+            response.body()!!
+        }
+    }
+
+    suspend fun updateState(id: Int, state: String):OrderModel {
+        return withContext(Dispatchers.IO) {
+            val response = orderClient.updateState(id, state, Constants.TOKEN)
             response.body()!!
         }
     }
