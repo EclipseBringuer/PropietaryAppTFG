@@ -26,10 +26,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.grl.propietaryapptfg.core.Constants
 import com.grl.propietaryapptfg.ui.components.CategoryItem
+import com.grl.propietaryapptfg.ui.components.ChangeStateDialog
 import com.grl.propietaryapptfg.ui.components.ConfirmationDialogWithNegative
 import com.grl.propietaryapptfg.ui.components.EmptyBox
 import com.grl.propietaryapptfg.ui.components.LogoApp
-import com.grl.propietaryapptfg.ui.components.OrderCard
+import com.grl.propietaryapptfg.ui.components.OrderCardAccepted
+import com.grl.propietaryapptfg.ui.components.OrderCardPending
 import com.grl.propietaryapptfg.ui.components.ProgressBarDialog
 import com.grl.propietaryapptfg.ui.screens.principal.PrincipalViewModel
 import com.grl.propietaryapptfg.ui.theme.granate
@@ -50,6 +52,7 @@ fun OrderListScreen(
     val tabs by orderListViewModel.tabs.observeAsState(initial = Constants.Companion.Tabs.getListOfTabs())
     val isAccepting by orderListViewModel.isAccepting.observeAsState(initial = false)
     val isCanceling by orderListViewModel.isCanceling.observeAsState(initial = false)
+    val isChanging by orderListViewModel.isChanging.observeAsState(initial = false)
     val orderSelected by principalViewModel.orderSelected.observeAsState()
     val stateOrders = rememberLazyListState()
 
@@ -81,6 +84,10 @@ fun OrderListScreen(
         ) {
             orderListViewModel.setIsCanceling(false)
         }
+    }
+
+    if (isChanging) {
+        ChangeStateDialog()
     }
 
     ConstraintLayout(
@@ -168,7 +175,7 @@ fun OrderListScreen(
             ) {
                 items(orders, key = { order -> order.id }) { order ->
                     if (selectedIndex == 0) {
-                        OrderCard(
+                        OrderCardPending(
                             order,
                             aladinFont,
                             onAccept = {
@@ -184,12 +191,17 @@ fun OrderListScreen(
                                 principalViewModel.setScreenState(2)
                             })
                     } else {
-                        OrderCard(
+                        OrderCardAccepted(
                             order,
                             aladinFont,
-                            onAccept = {},
-                            onCancel = {},
-                            onIcon = {})
+                            onButton = {
+                                principalViewModel.setOrderSelected(order)
+                                orderListViewModel.setIsChanging(true)
+                            },
+                            onIcon = {
+                                principalViewModel.setOrderSelected(order)
+                                principalViewModel.setScreenState(2)
+                            })
                     }
                 }
             }
