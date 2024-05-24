@@ -27,6 +27,9 @@ class OrderListViewModel @Inject constructor(private val orderRepository: OrderR
     private val _isCanceling = MutableLiveData<Boolean>().apply { value = false }
     val isCanceling: LiveData<Boolean> = _isCanceling
 
+    private val _isChanging = MutableLiveData<Boolean>().apply { value = false }
+    val isChanging: LiveData<Boolean> = _isChanging
+
     private val _orders = MutableLiveData<List<OrderModel>>()
     val orders: LiveData<List<OrderModel>> = _orders
 
@@ -44,6 +47,10 @@ class OrderListViewModel @Inject constructor(private val orderRepository: OrderR
             getOrdersNotCompleted()
             startPollingForOrders()
         }
+    }
+
+    fun setIsChanging(boolean: Boolean) {
+        _isChanging.value = boolean
     }
 
     fun setIsAccepting(boolean: Boolean) {
@@ -64,6 +71,34 @@ class OrderListViewModel @Inject constructor(private val orderRepository: OrderR
             try {
                 _isLoading.value = true // Mostrar barra de carga
                 orderRepository.updateState(order.id, Constants.PREPARATION)
+                getOrdersNotCompleted()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false // Ocultar barra de carga
+            }
+        }
+    }
+
+    fun deliveryOrder(order: OrderModel) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true // Mostrar barra de carga
+                orderRepository.updateState(order.id, Constants.DELIVERY)
+                getOrdersNotCompleted()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false // Ocultar barra de carga
+            }
+        }
+    }
+
+    fun completeOrder(order: OrderModel) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true // Mostrar barra de carga
+                orderRepository.updateState(order.id, Constants.COMPLETED)
                 getOrdersNotCompleted()
             } catch (e: Exception) {
                 e.printStackTrace()
