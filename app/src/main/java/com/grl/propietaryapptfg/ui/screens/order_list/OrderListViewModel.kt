@@ -30,6 +30,9 @@ class OrderListViewModel @Inject constructor(private val orderRepository: OrderR
     private val _isChanging = MutableLiveData<Boolean>().apply { value = false }
     val isChanging: LiveData<Boolean> = _isChanging
 
+    private val _isCompleted = MutableLiveData<Boolean>().apply { value = false }
+    val isCompleted: LiveData<Boolean> = _isCompleted
+
     private val _orders = MutableLiveData<List<OrderModel>>()
     val orders: LiveData<List<OrderModel>> = _orders
 
@@ -51,6 +54,10 @@ class OrderListViewModel @Inject constructor(private val orderRepository: OrderR
 
     fun setIsChanging(boolean: Boolean) {
         _isChanging.value = boolean
+    }
+
+    fun setIsCompleted(boolean: Boolean) {
+        _isCompleted.value = boolean
     }
 
     fun setIsAccepting(boolean: Boolean) {
@@ -90,6 +97,7 @@ class OrderListViewModel @Inject constructor(private val orderRepository: OrderR
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false // Ocultar barra de carga
+                _isCompleted.value = true
             }
         }
     }
@@ -104,6 +112,7 @@ class OrderListViewModel @Inject constructor(private val orderRepository: OrderR
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false // Ocultar barra de carga
+                _isCompleted.value = true
             }
         }
     }

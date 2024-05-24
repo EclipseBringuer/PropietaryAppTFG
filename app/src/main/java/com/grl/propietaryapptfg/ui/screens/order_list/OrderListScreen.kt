@@ -26,7 +26,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.grl.propietaryapptfg.core.Constants
 import com.grl.propietaryapptfg.ui.components.CategoryItem
-import com.grl.propietaryapptfg.ui.components.ChangeStateDialog
+import com.grl.propietaryapptfg.ui.components.ConfirmationDialog
 import com.grl.propietaryapptfg.ui.components.ConfirmationDialogWithNegative
 import com.grl.propietaryapptfg.ui.components.EmptyBox
 import com.grl.propietaryapptfg.ui.components.LogoApp
@@ -53,6 +53,7 @@ fun OrderListScreen(
     val isAccepting by orderListViewModel.isAccepting.observeAsState(initial = false)
     val isCanceling by orderListViewModel.isCanceling.observeAsState(initial = false)
     val isChanging by orderListViewModel.isChanging.observeAsState(initial = false)
+    val isCompleted by orderListViewModel.isCompleted.observeAsState(initial = false)
     val orderSelected by principalViewModel.orderSelected.observeAsState()
     val stateOrders = rememberLazyListState()
 
@@ -87,7 +88,39 @@ fun OrderListScreen(
     }
 
     if (isChanging) {
-        ChangeStateDialog()
+        ConfirmationDialogWithNegative(
+            onPositive = {
+                if (orderSelected!!.state == Constants.PREPARATION) {
+                    orderListViewModel.setIsChanging(false)
+                    orderListViewModel.deliveryOrder(orderSelected!!)
+                } else {
+                    orderListViewModel.setIsChanging(false)
+                    orderListViewModel.completeOrder(orderSelected!!)
+                }
+            },
+            title =
+            if (orderSelected!!.state == Constants.PREPARATION)
+                "¿Quieres pasar el pedido ${orderSelected!!.id}Nº a entrega?"
+            else "¿Quieres dar por completado el pedido ${orderSelected!!.id}Nº?",
+            text =
+            if (orderSelected!!.state == Constants.PREPARATION)
+                "Pulsa aceptar para poner el pedido en reparto"
+            else "Pulsa aceptar para dar por finalizado el pedido",
+            onNegative = {
+                orderListViewModel.setIsChanging(false)
+            }
+        )
+    }
+
+    if (isCompleted) {
+        ConfirmationDialog(
+            onClick = { orderListViewModel.setIsCompleted(false) },
+            title =
+            if (orderSelected!!.state == Constants.PREPARATION)
+                "El pedido ${orderSelected!!.id}Nº se ha puesto en entrega"
+            else "El pedido ${orderSelected!!.id}Nº ha sido completado",
+            text = "Pulsa aceptar para continua",
+        )
     }
 
     ConstraintLayout(
