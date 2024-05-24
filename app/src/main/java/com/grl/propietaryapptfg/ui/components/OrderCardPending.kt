@@ -37,7 +37,7 @@ import com.grl.propietaryapptfg.ui.theme.mostazaSoft
 import com.grl.propietaryapptfg.utils.Util
 
 @Composable
-fun OrderCard(
+fun OrderCardPending(
     order: OrderModel,
     aladinFont: FontFamily,
     onCancel: () -> Unit,
