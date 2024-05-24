@@ -1,5 +1,6 @@
 package com.grl.propietaryapptfg.ui.screens.order_details
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -196,5 +197,8 @@ fun OrderDetailsScreen(principalViewModel: PrincipalViewModel) {
                     bottom.linkTo(parent.bottom)
                 }
         )
+    }
+    BackHandler {
+        principalViewModel.setScreenState(1)
     }
 }
