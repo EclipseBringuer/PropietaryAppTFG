@@ -1,8 +1,5 @@
 package com.grl.propietaryapptfg.ui.components
 
-import android.content.Context
-import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,18 +15,15 @@ import androidx.compose.material3.RadioButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.grl.propietaryapptfg.core.Constants
-import com.grl.propietaryapptfg.data.models.ProductModel
 import com.grl.propietaryapptfg.ui.theme.black
 import com.grl.propietaryapptfg.ui.theme.blackSoft
 import com.grl.propietaryapptfg.ui.theme.darkRed
@@ -256,113 +250,6 @@ fun ConfirmationDialogWithNegative(
 }
 
 @Composable
-fun OrderProductDialog(
-    onDismiss: () -> Unit,
-    product: ProductModel,
-    context: Context,
-    notLogged: () -> Unit,
-) {
-    Dialog(
-        onDismissRequest = { onDismiss() },
-        properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = true)
-    ) {
-        ConstraintLayout(
-            Modifier
-                .fillMaxWidth()
-                .height(480.dp)
-                .background(granate, shape = RoundedCornerShape(20.dp))
-        ) {
-            val (image, title, body, button) = createRefs()
-            val topGuide = createGuidelineFromTop(0.02f)
-            Image(
-                painter = painterResource(id = product.photo),
-                contentDescription = "Product image",
-                modifier = Modifier
-                    .size(140.dp)
-                    .constrainAs(image) {
-                        top.linkTo(topGuide)
-                        end.linkTo(parent.end)
-                        start.linkTo(parent.start)
-                    }
-            )
-
-            Text(
-                text = product.name,
-                fontFamily = Util.loadFontFamilyFromAssets(),
-                fontSize = 50.sp,
-                fontWeight = FontWeight.Bold,
-                color = mostaza,
-                style = TextStyle(lineHeight = 50.sp),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.constrainAs(title) {
-                    top.linkTo(image.bottom)
-                    end.linkTo(parent.end)
-                    start.linkTo(parent.start)
-                }
-            )
-
-            Text(
-                text = product.description,
-                fontFamily = Util.loadFontFamilyFromAssets(),
-                fontSize = 35.sp,
-                color = white,
-                style = TextStyle(lineHeight = 40.sp),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .constrainAs(body) {
-                        top.linkTo(title.bottom)
-                        end.linkTo(parent.end)
-                        start.linkTo(parent.start)
-                        bottom.linkTo(button.top)
-                    }
-            )
-
-            Button(
-                onClick = {
-                    if (true) {
-                        Toast.makeText(
-                            context,
-                            "Producto ${product.name} añadido",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        onDismiss()
-                    } else {
-                        notLogged()
-                        onDismiss()
-                    }
-                },
-                Modifier
-                    .height(70.dp)
-                    .fillMaxWidth()
-                    .constrainAs(button) {
-                        bottom.linkTo(parent.bottom)
-                    },
-                shape = RoundedCornerShape(
-                    bottomEnd = 20.dp,
-                    bottomStart = 20.dp,
-                    topStart = 0.dp,
-                    topEnd = 0.dp
-                ),
-                colors = ButtonColors(
-                    contentColor = black,
-                    containerColor = mostaza,
-                    disabledContainerColor = mostazaSoft,
-                    disabledContentColor = blackSoft
-                )
-            ) {
-                Text(
-                    text = "Añadir",
-                    fontFamily = Util.loadFontFamilyFromAssets(),
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
-    }
-}
-
-@Composable
 fun OrderOptionsDialog(
     paymentValue: String = "",
     deliveryValue: String = "",
@@ -572,4 +459,9 @@ fun OrderOptionsDialog(
             }
         }
     }
+}
+
+@Composable
+fun ChangeStateDialog(){
+
 }
