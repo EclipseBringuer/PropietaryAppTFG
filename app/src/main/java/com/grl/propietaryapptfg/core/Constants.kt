@@ -4,7 +4,6 @@ class Constants {
     companion object {
         const val TOKEN = "15112004"
         const val CARD = "CARD"
-        const val CASH = "CASH"
         const val PICK = "PICK"
         const val DELIVERY = "DELIVERY"
         const val PENDING = "PENDING"
@@ -14,27 +13,11 @@ class Constants {
 
         class Tabs{
             companion object{
-                const val PENDINGS = "Pendientes"
-                const val ACCEPTEDS = "Aceptados"
+                private const val PENDINGS = "Pendientes"
+                private const val ACCEPTEDS = "Aceptados"
 
                 fun getListOfTabs():List<String>{
                     return listOf(PENDINGS, ACCEPTEDS)
-                }
-            }
-        }
-
-        class Category {
-            companion object {
-                const val KEBAB = "Kebab"
-                const val DURUM = "Dürüm"
-                const val MENU = "Menús"
-                const val RACION = "Raciones"
-                const val HAMBURGUESA = "Hamburguesa"
-                const val LAHMACUN = "Lahmacun"
-                const val BEBIDA = "Bebidas"
-
-                fun getListOfCategories(): List<String> {
-                    return listOf(KEBAB, DURUM, HAMBURGUESA, BEBIDA, LAHMACUN, RACION, MENU)
                 }
             }
         }
