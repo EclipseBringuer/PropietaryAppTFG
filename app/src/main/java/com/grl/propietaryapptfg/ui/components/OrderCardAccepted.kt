@@ -135,7 +135,7 @@ fun OrderCardAccepted(
                     }
             )
             Text(
-                text = if (order.state == Constants.PREPARATION) "Preparación" else "Entrega",
+                text = if (order.state == Constants.PREPARATION) "En cocina" else "Entrega",
                 fontFamily = aladinFont,
                 color = mostaza,
                 fontSize = 40.sp,
